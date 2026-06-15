@@ -1,0 +1,43 @@
+name: Bug Report
+description: Something is not working right
+labels: ["bug", "needs-triage"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      placeholder: "When I scan a receipt, the amount shows as $0."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to Receipts
+        2. Upload a Spotify invoice
+        3. See extracted amount is $0
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      placeholder: "The amount should show as $11.99"
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser / OS
+      placeholder: "Chrome 126 on macOS 15"
+  - type: dropdown
+    id: severity
+    attributes:
+      label: How bad is it?
+      options:
+        - "Annoying (workaround exists)"
+        - "Blocking (cannot complete task)"
+        - "Data loss or security issue"
+    validations:
+      required: true

@@ -1,0 +1,29 @@
+name: Feature Request
+description: Suggest something new for SubSavr
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      placeholder: "I want to share my subscription list with my partner."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you would like
+      placeholder: "A household feature where two users can see each other's subscriptions."
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area of the app?
+      options:
+        - Receipt scanning
+        - Subscription management
+        - Dashboard and analytics
+        - Notifications and alerts
+        - Settings and profile
+        - Other

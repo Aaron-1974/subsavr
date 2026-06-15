@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 215 28% 17%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 28% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 28% 17%;
+    --primary: 215 28% 17%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 215 15% 94%;
+    --secondary-foreground: 215 28% 17%;
+    --muted: 215 15% 96%;
+    --muted-foreground: 215 12% 45%;
+    --accent: 83 100% 56%;
+    --accent-foreground: 215 28% 12%;
+    --destructive: 0 84% 72%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 15% 90%;
+    --input: 215 15% 90%;
+    --ring: 83 100% 56%;
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: 215 28% 8%;
+    --foreground: 210 20% 94%;
+    --card: 215 25% 11%;
+    --card-foreground: 210 20% 94%;
+    --popover: 215 25% 11%;
+    --popover-foreground: 210 20% 94%;
+    --primary: 210 20% 94%;
+    --primary-foreground: 215 28% 8%;
+    --secondary: 215 20% 16%;
+    --secondary-foreground: 210 20% 94%;
+    --muted: 215 20% 15%;
+    --muted-foreground: 215 10% 55%;
+    --accent: 83 100% 56%;
+    --accent-foreground: 215 28% 8%;
+    --destructive: 0 72% 65%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 20% 18%;
+    --input: 215 20% 18%;
+    --ring: 83 100% 56%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+  h1, h2, h3 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  .savings-highlight {
+    @apply font-mono tabular-nums font-semibold;
+    color: #A3E635;
+  }
+  .danger-highlight {
+    @apply font-mono tabular-nums;
+    color: #F87171;
+  }
+  .card-interactive {
+    @apply rounded-lg border border-border bg-card p-4
+           transition-all duration-150
+           hover:border-accent/40 hover:shadow-md;
+  }
+  .status-badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5
+           text-xs font-medium leading-none;
+  }
+  .gradient-heading {
+    @apply bg-gradient-to-r from-foreground to-accent
+           bg-clip-text text-transparent;
+  }
+}

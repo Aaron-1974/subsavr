@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String?
+  currency  String   @default("AUD")
+  timezone  String   @default("Australia/Melbourne")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subscriptions Subscription[]
+  receipts      Receipt[]
+
+  @@map("users")
+}
+
+model Subscription {
+  id           String               @id @default(cuid())
+  userId       String
+  name         String
+  description  String?
+  category     SubscriptionCategory
+  status       SubscriptionStatus   @default(ACTIVE)
+  amount       Decimal              @db.Decimal(10, 2)
+  currency     String               @default("AUD")
+  billingCycle BillingCycle
+  nextBillingAt DateTime
+  trialEndsAt  DateTime?
+  includesGst  Boolean              @default(true)
+  gstAmount    Decimal?             @db.Decimal(10, 2)
+  websiteUrl   String?
+  logoUrl      String?
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  receipts Receipt[]
+
+  @@index([userId])
+  @@index([nextBillingAt])
+  @@map("subscriptions")
+}
+
+enum SubscriptionCategory {
+  STREAMING
+  MUSIC
+  GAMING
+  PRODUCTIVITY
+  CLOUD_STORAGE
+  NEWS_MEDIA
+  FITNESS
+  FOOD_DELIVERY
+  FINANCE
+  SECURITY
+  DEVELOPER_TOOLS
+  EDUCATION
+  COMMUNICATION
+  OTHER
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+  TRIAL
+}
+
+enum BillingCycle {
+  WEEKLY
+  FORTNIGHTLY
+  MONTHLY
+  QUARTERLY
+  ANNUALLY
+}
+
+model Receipt {
+  id             String     @id @default(cuid())
+  userId         String
+  subscriptionId String?
+  fileName       String
+  fileUrl        String
+  fileSize       Int
+  mimeType       String
+  extractedData  Json?
+  confidence     Float?
+  scanStatus     ScanStatus @default(PENDING)
+  scanError      String?
+  scannedAt      DateTime?
+  detectedName   String?
+  detectedAmount Decimal?   @db.Decimal(10, 2)
+  detectedDate   DateTime?
+  detectedGst    Decimal?   @db.Decimal(10, 2)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  @@index([userId])
+  @@map("receipts")
+}
+
+enum ScanStatus {
+  PENDING
+  PROCESSING
+  COMPLETE
+  FAILED
+}
